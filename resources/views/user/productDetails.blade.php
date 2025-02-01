@@ -59,7 +59,7 @@
             </div>
             <div class="d-flex justify-content-between p-price">
                   <span>Description:</span>
-                  <small>{{ $product->description }}</small>
+                  <small style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word;">&nbsp;&nbsp;&nbsp;{{ $product->description }}</small>
             </div>
 
         </div>
