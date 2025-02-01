@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Corona Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css')}}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ asset('assets/vendors/jvectormap/jquery-jvectormap.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/flag-icon-css/css/flag-icon.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/owl-carousel-2/owl.carousel.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/owl-carousel-2/owl.theme.default.min.css')}}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png')}}" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:partials/_sidebar.html -->
+      @include('admin.layouts.sidebar')
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_navbar.html -->
+        @include('admin.layouts.navbar')
+        <!-- partial -->
+
+        <!-- product section -->
+            <div class="main-panel">
+                  <div class="content-wrapper">
+                                    
+                        <div class="container">
+                        <div class="row justify-content-center">
+                              <div class="col-md-8">
+                                    <div class="card">
+                                    <div class="card-header text-center">Add Product</div>
+
+                                    <div class="card-body">
+                                          @if (session('success'))
+                                                <div id="success-message" class="alert alert-success">
+                                                {{ session('success') }}
+                                                </div>
+                                                <script>
+                                                      // Hide the success message after 3 seconds (3000ms)
+                                                      setTimeout(function() {
+                                                            $("#success-message").fadeOut("slow");
+                                                      }, 3000);
+                                                </script>
+                                          @endif
+
+                                          <form action="{{ url('/add_product') }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+
+                                                <!-- Product Title -->
+                                                <div class="form-group">
+                                                <label for="title">Product Title</label>
+                                                <input type="text" name="title" class="form-control" required>
+                                                </div>
+
+                                                <!-- Description -->
+                                                <div class="form-group">
+                                                <label for="description">Description</label>
+                                                <textarea name="description" class="form-control" rows="3"></textarea>
+                                                </div>
+
+                                                <!-- Price -->
+                                                <div class="form-group">
+                                                <label for="price">Price ($)</label>
+                                                <input type="number" name="price" class="form-control" step="0.01" required>
+                                                </div>
+
+                                                <!-- Discount Price -->
+                                                <div class="form-group">
+                                                <label for="discount_price">Discount Price ($)</label>
+                                                <input type="number" name="discount_price" class="form-control" step="0.01">
+                                                </div>
+
+                                                <!-- Quantity -->
+                                                <div class="form-group">
+                                                <label for="quantity">Quantity</label>
+                                                <input type="number" name="quantity" class="form-control" required>
+                                                </div>
+
+                                                <!-- category -->
+                                                <div class="form-group">
+                                                <label for="category_id">Category</label>
+                                                <select name="category_id" class="form-control" required>
+                                                      <option value="">Select Category</option>
+                                                      @foreach ($categories as $category)
+                                                            <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                                      @endforeach
+                                                </select>
+                                                </div>
+
+                                                <!-- Product Image -->
+                                                <div class="form-group">
+                                                <label for="image">Product Image</label>
+                                                <input type="file" name="image" class="form-control-file">
+                                                </div>
+
+                                                <!-- Submit Button -->
+                                                <button type="submit" class="btn btn-primary">Add Product</button>
+                                          </form>
+                                    </div>
+                                    </div>
+                              </div>
+                        </div>
+                        </div>
+
+
+
+                  
+                  </div>
+            </div>
+
+
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js')}}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{{ asset('assets/vendors/chart.js/Chart.min.js')}}"></script>
+    <script src="{{ asset('assets/vendors/progressbar.js/progressbar.min.js')}}"></script>
+    <script src="{{ asset('assets/vendors/jvectormap/jquery-jvectormap.min.js')}}"></script>
+    <script src="{{ asset('assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
+    <script src="{{ asset('assets/vendors/owl-carousel-2/owl.carousel.min.js')}}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{{ asset('assets/js/off-canvas.js')}}"></script>
+    <script src="{{ asset('assets/js/hoverable-collapse.js')}}"></script>
+    <script src="{{ asset('assets/js/misc.js')}}"></script>
+    <script src="{{ asset('assets/js/settings.js')}}"></script>
+    <script src="{{ asset('assets/js/todolist.js')}}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{{ asset('assets/js/dashboard.js')}}"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>
