@@ -74,7 +74,7 @@
                                           @endif
                                     </td>
                                     <td>{{ $product->title }}</td>
-                                    <td>{{ $product->description }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($product->description, 30) }}</td>
                                     <td>${{ $product->price }}</td>
                                     <td>${{ $product->discount_price }}</td>
                                     <td>{{ $product->quantity }}</td>
