@@ -29,7 +29,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'discount_price' => 'nullable|numeric|min:0',
             'quantity' => 'required|integer|min:1',
-            'category_id' => 'required|exists:categories,id',
+            'category_name' => 'required|exists:categories,category_name',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -39,7 +39,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->discount_price = $request->discount_price;
         $product->quantity = $request->quantity;
-        $product->category = $request->category_id;
+        $product->category = $request->category_name;
 
         // Handle image upload
         if ($request->hasFile('image')) {
@@ -104,7 +104,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'discount_price' => 'nullable|numeric|min:0',
             'quantity' => 'required|integer|min:1',
-            'category_id' => 'required|exists:categories,id',
+            'category_name' => 'required|exists:categories,category_name',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -113,7 +113,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->discount_price = $request->discount_price;
         $product->quantity = $request->quantity;
-        $product->category = $request->category_id;
+        $product->category = $request->category_name;
 
         // Handle image upload
         if ($request->hasFile('image')) {
@@ -131,5 +131,19 @@ class ProductController extends Controller
         return redirect()->route('view_product')->with('success', 'Product uodated successfully!');
 
     }
+
+
+    public function showProduct($id) {
+        $product = Product::with('category')->find($id);
+
+        // If the product doesn't exist, show an error or redirect
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+
+        // Pass the product to the view
+        return view('user.productDetails', compact('product'));
+    }
+    
 
 }

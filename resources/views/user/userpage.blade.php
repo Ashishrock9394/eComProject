@@ -51,13 +51,6 @@
       <!-- footer start -->
       @include('user.layouts.footer')
       <!-- footer end -->
-      <div class="cpy_">
-         <p class="mx-auto">© 2025 All Rights Reserved By <a href="https://html.design/">Free Html Templates</a><br>
-         
-            Distributed By <a href="https://themewagon.com/" target="_blank">Ashish Rock</a>
-         
-         </p>
-      </div>
       <!-- jQery -->
       <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
       <!-- popper js -->

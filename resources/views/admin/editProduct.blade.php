@@ -86,11 +86,11 @@
 
                               <!-- Category Dropdown -->
                               <div class="form-group">
-                              <label for="category_id">Category</label>
-                              <select name="category_id" class="form-control" required>
+                              <label for="category_name">Category</label>
+                              <select name="category_name" class="form-control" required>
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
-                                          <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                          <option value="{{ $category->category_name }}">{{ $category->category_name }}</option>
                                     @endforeach
                               </select>
                               </div>

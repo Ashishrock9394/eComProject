@@ -38,3 +38,6 @@ Route::get('/delete_product/{id}', [ProductController::class, 'destroy'])->name(
 
 Route::get('/edit_product/{id}', [ProductController::class, 'editProduct'])->name('edit.product');
 Route::post('/edit_product/{id}', [ProductController::class, 'updateProduct'])->name('update.product');
+
+
+Route::get('/show_product/{id}', [ProductController::class, 'showProduct'])->name('show.product');
