@@ -11,22 +11,25 @@
                         <li class="nav-item active">
                            <a class="nav-link" href="{{url('/redirect')}}">Home <span class="sr-only">(current)</span></a>
                         </li>
-                       <li class="nav-item dropdown">
-                           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pages <span class="caret"></span></a>
-                           <ul class="dropdown-menu">
-                              <li><a href="about.html">About</a></li>
-                              <li><a href="testimonial.html">Testimonial</a></li>
-                           </ul>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#new">Latest</a>
                         </li>
                         <li class="nav-item">
-                           <a class="nav-link" href="product.html">Products</a>
+                           <a class="nav-link" href="#products">Products</a>
                         </li>
                         <li class="nav-item">
-                           <a class="nav-link" href="blog_list.html">Blog</a>
+                           <a class="nav-link" href="#blog">Blog</a>
                         </li>
                         <li class="nav-item">
-                           <a class="nav-link" href="contact.html">Contact</a>
+                           <a class="nav-link" href="#contact">Contact</a>
                         </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="{{ route('cart.show') }}">
+                              <i class="fa fa-shopping-cart"></i> 
+                              <span class="badge badge-danger">{{ session('cart') ? count(session('cart')) : 0 }}</span>
+                           </a>
+                        </li>
+
                         @if (Route::has('login'))
                         @auth
                             <li class="nav-item dropdown">
@@ -67,3 +70,30 @@
                </nav>
             </div>
          </header>
+         @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
+<script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+      <script src="{{ asset('js/bootstrap.js') }}"></script>
+      <script>
+         $(document).ready(function(){
+            setTimeout(function() {
+                  $(".alert").fadeOut("slow");
+            }, 3000); // Hides after 3 seconds
+         });
+      </script>

@@ -1,4 +1,4 @@
-<section class="arrival_section">
+<section id="new" class="arrival_section">
          <div class="container">
             <div class="box">
                <div class="arrival_bg_box">
