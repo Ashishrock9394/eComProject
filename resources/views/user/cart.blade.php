@@ -16,61 +16,72 @@
 
          <div class="heading_container heading_center">
             <h2>Items in your <span>Cart</span></h2>
-            
-            @if(session('cart'))
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Title</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php $grandTotal = 0; @endphp
-                        @foreach(session('cart') as $id => $details)
-                        @php $totalPrice = $details['price'] * $details['quantity']; @endphp
-                        <tr>
-                            <td><img src="{{ asset('storage/' . $details['image']) }}" width="50"></td>
-                            <td>{{ $details['title'] }}</td>
-                            <td class="price" data-price="{{ $details['price'] }}">
-                                ${{ number_format($details['price'], 2) }}
-                            </td>
-                            <td>
-                                <!-- Quantity update form -->
-                                <form action="{{ route('cart.update', $id) }}" method="POST" class="d-inline update-form">
-                                    @csrf
-                                    <input type="number" name="quantity" value="{{ $details['quantity'] }}" min="1" class="form-control quantity" data-id="{{ $id }}" style="width: 60px; display: inline-block;">
-                                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                                </form>
-                            </td>
-                            <td class="total">
-                                ${{ number_format($totalPrice, 2) }}
-                            </td>
-                            <td>
-                                <!-- Remove button -->
-                                <form action="{{ route('cart.remove', $id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @php $grandTotal += $totalPrice; @endphp
-                        @endforeach
-                    </tbody>
-                </table>
-
-                <!-- Grand Total Row -->
-                <div class="text-right">
-                    <h4><strong>Grand Total: $<span id="grandTotal">{{ number_format($grandTotal, 2) }}</span></strong></h4>
+            @if($cart->isEmpty())
+                <div class="text-center">
+                    <p class="font-weight-bold">Your Cart is Empty</p>
+                    <img src="https://png.pngtree.com/png-vector/20241116/ourmid/pngtree-empty-cart-shopping-side-view-png-image_14433434.png" 
+                        alt="Empty Cart" class="img-fluid" style="max-width: 300px;">
                 </div>
-                
             @else
-                <p>Your Cart is Empty</p>
-                <img src="https://png.pngtree.com/png-vector/20241116/ourmid/pngtree-empty-cart-shopping-side-view-png-image_14433434.png" alt="">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped text-center">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Image</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $grandTotal = 0; @endphp
+                            @foreach($cart as $item)
+                            @php 
+                                $total = $item->quantity * $item->product_price;
+                                $grandTotal += $total;
+                            @endphp
+                            <tr data-id="{{ $item->id }}">
+                                <td>
+                                    <img src="{{ asset('storage/' . $item->product_image) }}" 
+                                        width="100" class="img-thumbnail">
+                                </td>
+                                <td>{{ $item->product_title }}</td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <input type="number" class="form-control quantity" min="1" 
+                                        value="{{ $item->quantity }}" 
+                                        data-id="{{ $item->id }}" 
+                                        style="width: 60px; text-align: center; margin: 0 auto; display: block;">
+                                </td>
+
+                                <td class="price" data-price="{{ $item->product_price }}">
+                                    ${{ number_format($item->product_price, 2) }}
+                                </td>
+                                <td class="total">${{ number_format($total, 2) }}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm remove-item">
+                                        <i class="fa fa-trash"></i> Remove
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot class="thead-light">
+                            <tr>
+                                <th colspan="4" class="text-right">Grand Total:</th>
+                                <th id="grandTotal">${{ number_format($grandTotal, 2) }}</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="text-right">
+                    <a href="{{route('user.order')}}" class="btn btn-success btn-lg">
+                        Proceed to Checkout <i class="fa fa-credit-card"></i>
+                    </a>
+                </div>
             @endif
          </div>
 
@@ -82,24 +93,59 @@
       <script src="{{ asset('js/bootstrap.js') }}"></script>
       <script src="{{ asset('js/custom.js') }}"></script>
 
-      <!-- Script to update total price dynamically -->
+      <!-- Script to update total price dynamically and remove items -->
       <script>
          $(document).ready(function(){
-             $(".quantity").on("input", function() {
+             // Update quantity and total price
+             $(".quantity").on("change", function() {
                  let quantity = $(this).val();
-                 let price = $(this).closest("tr").find(".price").data("price");
+                 let row = $(this).closest("tr");
+                 let price = row.find(".price").data("price");
                  let total = (quantity * price).toFixed(2);
+                 row.find(".total").text("$" + total);
 
-                 // Update the individual row total
-                 $(this).closest("tr").find(".total").text("$" + total);
-
-                 // Recalculate the grand total
+                 // Recalculate grand total
                  let grandTotal = 0;
                  $(".total").each(function() {
                      grandTotal += parseFloat($(this).text().replace("$", ""));
                  });
 
-                 $("#grandTotal").text(grandTotal.toFixed(2));
+                 $("#grandTotal").text("$" + grandTotal.toFixed(2));
+
+                 // AJAX request to update quantity in the database
+                 let itemId = $(this).data("id");
+                 $.ajax({
+                     url: "{{ route('cart.update', '') }}/" + itemId,
+                     type: "POST",
+                     data: {
+                         _token: "{{ csrf_token() }}",
+                         quantity: quantity
+                     },
+                     success: function(response) {
+                         console.log("Quantity updated successfully.");
+                     }
+                 });
+             });
+
+             // Remove item from cart
+             $(".remove-item").on("click", function() {
+                 let row = $(this).closest("tr");
+                 let itemId = row.data("id");
+
+                 $.ajax({
+                     url: "{{ route('cart.remove', '') }}/" + itemId,
+                     type: "POST",
+                     data: { _token: "{{ csrf_token() }}" },
+                     success: function(response) {
+                         row.remove();
+                         let grandTotal = 0;
+                         $(".total").each(function() {
+                             grandTotal += parseFloat($(this).text().replace("$", ""));
+                         });
+
+                         $("#grandTotal").text("$" + grandTotal.toFixed(2));
+                     }
+                 });
              });
          });
       </script>

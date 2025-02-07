@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 
 Route::get('/',[HomeController::class,'index']);
@@ -48,5 +49,14 @@ Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::post('/cart/update/{id}', [CartController::class, 'updateCart'])->name('cart.update');
 Route::post('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+
+Route::get('/order-now', [OrderController::class, 'createOrder'])->name('user.order');
+Route::get('/payment', [OrderController::class, 'paymentMode'])->name('user.payment');
+
+Route::get('/checkout', [OrderController::class, 'checkout'])->name('user.order');
+// Route::post('/checkout/place-order', [OrderController::class, 'placeOrder'])->name('checkout.placeOrder');
+
+
 
 

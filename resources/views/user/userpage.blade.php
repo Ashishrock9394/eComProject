@@ -52,6 +52,9 @@
       @include('user.layouts.footer')
       <!-- footer end -->
       <!-- jQery -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+
+
       <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
       <!-- popper js -->
       <script src="{{ asset('js/popper.min.js') }}"></script>

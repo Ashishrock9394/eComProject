@@ -26,10 +26,16 @@
                         <li class="nav-item">
                            <a class="nav-link" href="{{ route('cart.show') }}">
                               <i class="fa fa-shopping-cart"></i> 
-                              <span class="badge badge-danger">{{ session('cart') ? count(session('cart')) : 0 }}</span>
+                              @auth
+                                    @php
+                                       $cartCount = \App\Models\Cart::where('user_id', Auth::id())->count();
+                                    @endphp
+                                    <span class="badge badge-danger">{{ $cartCount }}</span>
+                              @else
+                                    <span class="badge badge-danger">0</span>
+                              @endauth
                            </a>
                         </li>
-
                         @if (Route::has('login'))
                         @auth
                             <li class="nav-item dropdown">
@@ -88,8 +94,6 @@
     </div>
 @endif
 
-<script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
-      <script src="{{ asset('js/bootstrap.js') }}"></script>
       <script>
          $(document).ready(function(){
             setTimeout(function() {
@@ -97,3 +101,12 @@
             }, 3000); // Hides after 3 seconds
          });
       </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>  <!-- Add this line -->
+<script src="{{ asset('js/bootstrap.js') }}"></script>
+

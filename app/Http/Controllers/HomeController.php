@@ -24,7 +24,7 @@ class HomeController extends Controller
             return redirect()->route('login');
         }
     
-        $usertype = Auth::user()->usertype;    
+        $usertype = Auth::user()->user_type;    
         if ($usertype == "1") {
             return view('admin.home');
         } else {
