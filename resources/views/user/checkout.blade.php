@@ -13,12 +13,15 @@
    <body>
       <div class="hero_area">
          @include('user.layouts.header')
+         <div class="heading_container heading_center">
+                  <h2>Order <span>Now</span></h2>
+            </div>
 
          @if(session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
          @endif
 
-         <div class="row">
+         <div class="row m-2">
             <!-- Order Summary -->
             <div class="col-md-6">
                   <h4>Order Summary</h4>
@@ -58,7 +61,7 @@
             <!-- Billing Details -->
             <div class="col-md-6">
                   <h4>Billing Details</h4>
-                  <form action="#" method="POST">
+                  <form action="{{ route('checkout.placeOrder') }}" method="POST">
                      @csrf
                      <div class="form-group">
                         <label>Name:</label>
