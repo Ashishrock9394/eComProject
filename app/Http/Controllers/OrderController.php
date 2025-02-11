@@ -52,8 +52,8 @@ class OrderController extends Controller
             return $item->quantity * $item->product_price;
         });
         
-        if($request->payment_method!="COD"){
-            dd($grandTotal);
+        if($request->payment_method!="COD"){            
+            return redirect()->to('/pay?amount=' . $grandTotal);
         }
 
         // Create Order
@@ -77,10 +77,9 @@ class OrderController extends Controller
             ]);
         }
 
-        // Clear the cart
         Cart::where('user_id', $user->id)->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Order placed successfully!');
+        return redirect()->route('redirect')->with('success', 'Order placed successfully!');
     }
     
 

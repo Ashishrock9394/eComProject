@@ -23,7 +23,7 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/redirect',[HomeController::class,'redirect'])->middleware('auth');
+Route::get('/redirect',[HomeController::class,'redirect'])->middleware('auth')->name('redirect');
 
 
 Route::get('/category',[AdminController::class,'getCategory'])->name('admin.category');
@@ -55,6 +55,9 @@ Route::post('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->nam
 
 Route::get('/checkout', [OrderController::class, 'paymentPage'])->name('user.order');
 Route::post('/checkout/place-order', [OrderController::class, 'placeOrder'])->name('checkout.placeOrder');
+
+Route::get('/pay', [PaymentController::class, 'showPaymentPage']);
+
 
 Route::post('/stripe', [PaymentController::class, 'stripePost'])->name('stripe.post');
 

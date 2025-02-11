@@ -17,10 +17,6 @@
                   <h2>Order <span>Now</span></h2>
             </div>
 
-         @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-         @endif
-
          <div class="row m-2">
             <!-- Order Summary -->
             <div class="col-md-6">
