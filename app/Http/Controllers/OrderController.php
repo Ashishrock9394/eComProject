@@ -48,22 +48,43 @@ class OrderController extends Controller
             return redirect()->route('cart.show')->with('error', 'Your cart is empty.');
         }
 
-        $grandTotal = $cartItems->sum(function ($item) {
-            return $item->quantity * $item->product_price;
-        });
+        $grandTotal = $cartItems->sum(fn($item) => $item->quantity * $item->product_price);
+
+        // If payment method is not COD, save order data in session and redirect to payment
+        if ($request->payment_method !== "COD") {
+            session([
+                'order_data' => [
+                    'user_id' => $user->id,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'address' => $request->address,
+                    'payment_method' => $request->payment_method,
+                    'total_price' => $grandTotal,
+                    'cart_items' => $cartItems->toArray()
+                ]
+            ]);
+            return redirect()->to('/pay?amount=' . $grandTotal);
+        }
+
+        // If COD, process order immediately
+        $order = $this->createOrder($user, $request, $cartItems);
+        Cart::where('user_id', $user->id)->delete();
         
+        return redirect()->route('redirect')->with('success', 'Order placed successfully!');
+    }
 
-        // Create Order
-        $order = new Order();
-        $order->user_id = $user->id;
-        $order->name = $request->name;
-        $order->email = $request->email;
-        $order->address = $request->address;
-        $order->payment_method = $request->payment_method;
-        $order->total_price = $cartItems->sum(fn($item) => $item->quantity * $item->product_price);
-        $order->save();
+    // Extracted method to handle order creation
+    private function createOrder($user, $request, $cartItems)
+    {
+        $order = Order::create([
+            'user_id' => $user->id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'address' => $request->address,
+            'payment_method' => $request->payment_method,
+            'total_price' => $cartItems->sum(fn($item) => $item->quantity * $item->product_price),
+        ]);
 
-        // Save Order Items
         foreach ($cartItems as $cartItem) {
             OrderItem::create([
                 'order_id' => $order->id,
@@ -74,14 +95,8 @@ class OrderController extends Controller
             ]);
         }
 
-        Cart::where('user_id', $user->id)->delete();
-
-        if($request->payment_method!="COD"){           
-            return redirect()->to('/pay?amount=' . $grandTotal);
-        }
-
-        return redirect()->route('redirect')->with('success', 'Order placed successfully!');
+        return $order;
     }
-    
+
 
 }
