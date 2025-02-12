@@ -75,8 +75,8 @@
                                     </td>
                                     <td>{{ $product->title }}</td>
                                     <td>{{ \Illuminate\Support\Str::limit($product->description, 30) }}</td>
-                                    <td>${{ $product->price }}</td>
                                     <td>${{ $product->discount_price }}</td>
+                                    <td>${{ $product->price }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>
                                     <a class="btn btn-info my-2" href="{{route('edit.product',$product->id)}}">Edit</a>

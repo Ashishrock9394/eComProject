@@ -26,8 +26,8 @@
                </div>
                <div class="detail-box">
                   <h5>{{ $product->title }}</h5>
-                  <h6 class="text-danger"><del>${{ number_format($product->price, 2) }}</del></h6>
-                  <h6>${{ number_format($product->discount_price, 2) }}</h6>
+                  <h6 class="text-danger"><del>${{ number_format($product->discount_price, 2) }}</del></h6>
+                  <h6>${{ number_format($product->price, 2) }}</h6>
                </div>
             </div>
          </div>

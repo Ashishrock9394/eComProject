@@ -37,5 +37,13 @@ class DatabaseSeeder extends Seeder
             'address' => "delhi",
             'password' => Hash::make('00000000'), // Encrypt the password
         ]);
+        User::create([
+            'name' => 'AbhiJeet',
+            'email' => 'abhi@gmail.com',
+            'user_type' => 0,
+            'phone' => "9198552556",
+            'address' => "delhi",
+            'password' => Hash::make('00000000'), // Encrypt the password
+        ]);
     }
 }

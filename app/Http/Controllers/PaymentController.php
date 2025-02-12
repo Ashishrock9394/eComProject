@@ -30,7 +30,6 @@ class PaymentController extends Controller
                 "description" => "Payment of $" . $request->amount
         ]);
                 
-        return back()
-                ->with('success', 'Payment successful!');
+        return redirect()->route('redirect')->with('success', 'Payment successful!');
     }
 }
