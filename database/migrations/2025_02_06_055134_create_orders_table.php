@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('address');
             $table->string('payment_method');
             $table->decimal('total_price', 10, 2);
+            $table->string('order_status')->default('pending');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

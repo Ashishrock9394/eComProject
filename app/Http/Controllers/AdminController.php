@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category; // Use the correct namespace for the model
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -52,5 +55,16 @@ class AdminController extends Controller
         $data->category_name = $request->category_name;
         $data->save();
         return redirect()->route('admin.category')->with('success', 'Category updated successfully!');
+    }
+
+
+
+
+    // for orders 
+
+    public function showOrder()
+    {
+        $orders = Order::all(); // Eager loading relationships
+        return view('admin.showOrder', compact('orders')); // ✅ Changed 'order' to 'orders'
     }
 }

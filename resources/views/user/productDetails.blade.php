@@ -45,11 +45,11 @@
             @if($product->discount_price)
                 <div class="d-flex justify-content-between p-price">                  
                   <span>Price:</span>
-                  <span class="text-danger"><del>${{ number_format($product->price, 2) }}</del></span>
+                  <span class="text-danger"><del>${{ number_format($product->discount_price, 2) }}</del></span>
                   </div>
                   <div class="d-flex justify-content-between p-price"> 
                   <span>Discount Price:</span>
-                  <span>${{ number_format($product->discount_price, 2) }}</span>
+                  <span>${{ number_format($product->price, 2) }}</span>
                 </div>
             @endif
 
@@ -65,7 +65,15 @@
         </div>
         <div class="d-flex justify-content-between total font-weight-bold mt-4">
             <span>Total</span>
-            <span>${{ number_format($product->discount_price ?: $product->price, 2) }}</span>
+            <span>${{ number_format($product->price, 2) }}</span>
+        </div>
+        <div>
+            <form action="{{ route('cart.add', $product->id) }}" method="POST">
+            @csrf
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="submit" class="btn btn-success" style="width:100%">Add to Cart</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

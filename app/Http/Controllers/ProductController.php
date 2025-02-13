@@ -132,18 +132,6 @@ class ProductController extends Controller
 
     }
 
-
-    public function showProduct($id) {
-        $product = Product::with('category')->find($id);
-
-        // If the product doesn't exist, show an error or redirect
-        if (!$product) {
-            return redirect()->back()->with('error', 'Product not found.');
-        }
-
-        // Pass the product to the view
-        return view('user.productDetails', compact('product'));
-    }
     
 
 }

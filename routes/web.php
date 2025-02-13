@@ -34,6 +34,18 @@ Route::get('/edit-category/{id}', [AdminController::class, 'editCategory'])->nam
 
 Route::post('/admin/update-category/{id}', [AdminController::class, 'updateCategory'])->name('admin.updateCategory');
 
+
+Route::get('/show-order',[AdminController::class,'showOrder'])->name('show.order');
+
+
+
+
+
+
+
+
+
+
 Route::get('/view_product',[ProductController::class,'viewProduct'])->name('view_product');
 Route::get('/add_product',[ProductController::class,'addProductPage']);
 Route::post('/add_product',[ProductController::class,'addProduct']);
@@ -44,7 +56,7 @@ Route::get('/edit_product/{id}', [ProductController::class, 'editProduct'])->nam
 Route::post('/edit_product/{id}', [ProductController::class, 'updateProduct'])->name('update.product');
 
 
-Route::get('/show_product/{id}', [ProductController::class, 'showProduct'])->name('show.product');
+Route::get('/show_product/{id}', [HomeController::class, 'showProduct'])->name('show.product');
 
 
 Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
