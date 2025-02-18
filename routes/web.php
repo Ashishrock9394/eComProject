@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
@@ -10,7 +12,7 @@ use App\Http\Controllers\PaymentController;
 
 
 
-Route::get('/',[HomeController::class,'index']);
+Route::get('/',[HomeController::class,'index'])->middleware('verified');
 
 
 Route::middleware([
@@ -18,10 +20,25 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.home');
-    })->name('dashboard');
+    Route::get('/redirect', [HomeController::class, 'index'])->name('dashboard');
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email'); // Jetstream provides this view
+})->middleware('auth')->name('verification.notice');
+
+// Verify email via link
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/redirect'); // Redirect to dashboard after verification
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+// Resend verification email
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 
 Route::get('/redirect',[HomeController::class,'redirect'])->middleware('auth')->name('redirect');
 
