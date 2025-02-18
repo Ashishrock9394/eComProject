@@ -37,6 +37,8 @@ Route::post('/admin/update-category/{id}', [AdminController::class, 'updateCateg
 
 Route::get('/show-order',[AdminController::class,'showOrder'])->name('show.order');
 
+Route::put('/orders/{orderId}/status', [AdminController::class, 'updateDeliveryStatus'])->name('orders.updateStatus');
+
 
 
 

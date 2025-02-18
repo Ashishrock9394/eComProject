@@ -8,9 +8,9 @@
                             <a href="#"><img width="210" src="{{asset('images/logo.png')}}" alt="#" /></a>
                         </div>
                         <div id="contact" class="information_f">
-                            <p><strong>ADDRESS:</strong> 28 White tower, Street Name New York City, USA</p>
-                            <p><strong>TELEPHONE:</strong> +91 987 654 3210</p>
-                            <p><strong>EMAIL:</strong> yourmain@gmail.com</p>
+                            <p><strong>ADDRESS:</strong> Golden Nest, Noida, India</p>
+                            <p><strong>TELEPHONE:</strong> +91 919 855 2556</p>
+                            <p><strong>EMAIL:</strong> ashishkumar9394@gmail.com</p>
                         </div>
                     </div>
                 </div>

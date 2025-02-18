@@ -78,7 +78,7 @@
 
                                                 <!-- Discount Price -->
                                                 <div class="form-group">
-                                                <label for="discount_price">Discount Price ($)</label>
+                                                <label for="discount_price">MRP ($)</label>
                                                 <input type="number" name="discount_price" class="form-control" step="0.01">
                                                 </div>
 

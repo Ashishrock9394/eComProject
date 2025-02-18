@@ -63,8 +63,30 @@ class AdminController extends Controller
     // for orders 
 
     public function showOrder()
-    {
-        $orders = Order::all(); // Eager loading relationships
-        return view('admin.showOrder', compact('orders')); // ✅ Changed 'order' to 'orders'
+    {   
+        // Eager loading user and product details
+
+        $orders = Order::with(['user', 'orderItems.product'])->get(); 
+
+        return view('admin.showOrder', compact('orders'));
     }
+
+    // update delivery status
+
+    public function updateDeliveryStatus(Request $request, $orderId)
+{
+    // Validate the input for delivery status
+    $request->validate([
+        'delivery_status' => 'required|string|in:Pending,Shipped,Delivered,Cancelled', // Acceptable statuses
+    ]);
+
+    // Find the order by ID and update its delivery status
+    $order = Order::findOrFail($orderId);
+    $order->order_status = $request->delivery_status;
+    $order->save();
+
+    return redirect()->back()->with('success', 'Delivery status updated successfully!');
+}
+
+
 }
