@@ -63,7 +63,7 @@
                                     <th>Action</th>
                                     </tr>
                               </thead>
-                              <tbody>
+                              <tbody class="table-light text-dark">
                                     @foreach ($products as $product)
                                     <tr>
                                     <td>

@@ -4,7 +4,7 @@
          <h2>Our <span>Products</span></h2>
       </div>
 
-      <div class="row">
+      <div id="search_products" class="row">
          @foreach($products as $product)
          <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
             <div class="box">

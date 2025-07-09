@@ -1,5 +1,29 @@
 <!-- header section strats -->
-<header class="header_section">
+  <style>
+  .highlight {
+    background-color: yellow;
+  }
+  .search-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .search-wrapper input {
+    padding-left: 35px; /* space for icon */
+    border-radius: 20px;
+    padding: 5px 5px;
+  }
+
+  .search-wrapper .fa-search {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: red;
+    pointer-events: none;
+  }
+</style>
+<header id="header" class="header_section">
             <div class="container">
                <nav class="navbar navbar-expand-lg custom_nav-container ">
                   <a class="navbar-brand" href="{{url('/redirect')}}"><img width="250" src="{{asset('images/logo.png')}}" alt="#" /></a>
@@ -45,8 +69,10 @@
                                         class="rounded-circle" width="30">
                                     {{ Auth::user()->name }}
                                 </a>
+
                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a>
+                                    <a class="dropdown-item" href="{{ route('user.orders')}}">My Orders</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         Logout
@@ -66,11 +92,13 @@
                         @endauth
 
                         @endif
-                        <form class="form-inline">
-                           <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                           <i class="fa fa-search" aria-hidden="true"></i>
-                           </button>
-                        </form>
+                        <li class="nav-item">
+                           <div class="search-wrapper m-2">
+                              <i class="fas fa-search"></i>
+                              <input type="text" id="searchBox" oninput="highlightText()" class="form-control" style="width: 100px;">
+                           </div>
+                        </li>
+
                      </ul>
                   </div>
                </nav>
@@ -92,6 +120,56 @@
                $(".alert").fadeOut("slow");
          }, 3000);
       </script>
+      <script>
+  function highlightText() {
+    const searchText = document.getElementById("searchBox").value.trim().toLowerCase();
+    const container = document.getElementById("products");
+
+    // Remove all existing highlights
+    const highlights = container.querySelectorAll(".highlight");
+    highlights.forEach(el => {
+      const parent = el.parentNode;
+      parent.replaceChild(document.createTextNode(el.textContent), el);
+      parent.normalize(); // Merge adjacent text nodes
+    });
+
+    if (searchText === "") return;
+
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+
+    const nodesToHighlight = [];
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      if (node.nodeValue.toLowerCase().includes(searchText)) {
+        nodesToHighlight.push(node);
+      }
+    }
+
+    nodesToHighlight.forEach(textNode => {
+      const parent = textNode.parentNode;
+      const value = textNode.nodeValue;
+
+      const regex = new RegExp(`(${searchText})`, 'gi');
+      const parts = value.split(regex);
+
+      const fragment = document.createDocumentFragment();
+
+      parts.forEach(part => {
+        if (part.toLowerCase() === searchText) {
+          const span = document.createElement("span");
+          span.className = "highlight";
+          span.textContent = part;
+          fragment.appendChild(span);
+        } else {
+          fragment.appendChild(document.createTextNode(part));
+        }
+      });
+
+      parent.replaceChild(fragment, textNode);
+    });
+  }
+</script>
+
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>

@@ -98,5 +98,19 @@ class OrderController extends Controller
         return $order;
     }
 
+   public function showOrderHistory()
+{
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'You must be logged in to view your orders.');
+    }
+
+    $orders = Order::where('user_id', Auth::id())
+                   ->with('orderItems') // Eager load
+                   ->get();
+
+    return view('user.order_history', compact('orders'));
+}
+
+
 
 }

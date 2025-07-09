@@ -12,7 +12,7 @@ use App\Http\Controllers\PaymentController;
 
 
 
-Route::get('/',[HomeController::class,'index'])->middleware('verified');
+Route::get('/',[HomeController::class,'index']);
 
 
 Route::middleware([
@@ -51,13 +51,15 @@ Route::get('/edit-category/{id}', [AdminController::class, 'editCategory'])->nam
 
 Route::post('/admin/update-category/{id}', [AdminController::class, 'updateCategory'])->name('admin.updateCategory');
 
-
+// for admin 
 Route::get('/show-order',[AdminController::class,'showOrder'])->name('show.order');
 
 Route::put('/orders/{orderId}/status', [AdminController::class, 'updateDeliveryStatus'])->name('orders.updateStatus');
 
 
+// for user
 
+Route::get('/my_orders', [OrderController::class, 'showOrderHistory'])->name('user.orders');
 
 
 

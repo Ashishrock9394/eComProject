@@ -16,12 +16,14 @@
       <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}" />
       <!-- font awesome style -->
       <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
       <!-- Custom styles for this template -->
       <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
       <!-- responsive style -->
       <link href="{{ asset('css/responsive.css') }}" rel="stylesheet" />
    </head>
-   <body>
+   <body id="body">
       <div class="hero_area">
          <!-- header section strats -->
           @include('user.layouts.header')
@@ -30,18 +32,19 @@
          @include('user.layouts.slider')
          <!-- end slider section -->
       </div>
+     
+      <!-- product section -->
+      @include('user.layouts.products')
+      <!-- end product section -->
+      
+       <!-- new arrival section -->
+      @include('user.layouts.newarrivals')
+      <!-- end arrival section -->      
+
       <!-- why section -->
       @include('user.layouts.whysection')
       <!-- end why section -->
       
-      <!-- new arrival section -->
-      @include('user.layouts.newarrivals')
-      <!-- end arrival section -->
-      
-      <!-- product section -->
-      @include('user.layouts.products')
-      <!-- end product section -->
-
       <!-- subscribe section -->
       @include('user.layouts.subscribe')
       <!-- end subscribe section -->
